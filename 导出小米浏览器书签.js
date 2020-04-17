@@ -1,5 +1,7 @@
+auto.waitFor();
+sleep(9000);//9秒后启动
+/*******获取标签并输出为txt */
 //html开头
-
 var testtxt="<!DOCTYPE NETSCAPE-Bookmark-file-1>\n<!-- This is an automatically generated file.\nIt will be read and overwritten.\nDO NOT EDIT! -->\n";
 testtxt=testtxt+"<META HTTP-EQUIV=\"Content-Type\" CONTENT=\"text/html; charset=UTF-8\">\n<TITLE>Bookmarks</TITLE>\n<H1>Bookmarks</H1>\n<DL><p>\n";
 testtxt=testtxt+"    <DT><H3 >小米浏览器书签</H3>\n   <DL><p>\n";
@@ -8,6 +10,7 @@ bookmark();//书签
 //结尾
 files.append("/storage/emulated/0/aaZLY/小米浏览器书签导出.txt","    </DL><p>\n</DL><p>");
 toast("结束");
+log("结束");
 function bookmark() {//遍历输出书签
     var array=[];//储存整个页面的书签夹或书签的name（id为label）
     var past_length=0;//array的元素个数
@@ -24,10 +27,10 @@ function bookmark() {//遍历输出书签
                 /**对元素进行访问 */
                 if(elem.findOne(id("url"))==null){//是书签夹
                     elem.click();
-                    sleep(200);
+                    sleep(500);
                     bookmark_folder();
                     back();
-                    sleep(200);
+                    sleep(500);
                     
                 }
                 else{//是普通书签
@@ -37,14 +40,14 @@ function bookmark() {//遍历输出书签
 
         });
         /*一个页面的遍历--------*/
-        log(array);
-        toast(array);
-        Swipe(540,1674,540,226,3000);
-        sleep(5000);
+        //log(array);
+        //toast(array);
+        if(past_length!=array.length){//跳过最后到底的一次，使得运行更快
+            Swipe(540,1674,540,706,800);
+            sleep(2000);
+        }
     }while(past_length!=array.length)//判断页面是否滑到尾部了
 
-
-    
 
 }
 function bookmark_folder(){//解决一个标签文件夹
@@ -53,12 +56,15 @@ function bookmark_folder(){//解决一个标签文件夹
     print_title(title.text());
     //书签
     files.append("/storage/emulated/0/aaZLY/小米浏览器书签导出.txt","      <DL><p>\n");   
+    /**
     var list = id("bookmark_list_view").findOnce();
     //toast(list.length);
     list.children().forEach(function(elem){
         print_bookmark( elem.child(0).text(),elem.child(1).text() );
         
-    });
+    });    
+     */
+    bookmark();
     files.append("/storage/emulated/0/aaZLY/小米浏览器书签导出.txt","      </DL><p>\n");
 }
 function print_title(name) {//用于向文件输出一个文件夹标题
